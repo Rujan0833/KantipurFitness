@@ -9,7 +9,7 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Dumbbell className="h-8 w-8 text-gym-red" />
-          <span className="text-2xl font-bold">IRONCLAD GYM</span>
+          <span className="text-2xl font-bold">KANTIPUR FITNESS CENTER</span>
         </div>
         
         <div className="hidden md:flex space-x-8">

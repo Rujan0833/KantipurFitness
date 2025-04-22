@@ -12,9 +12,9 @@ const AboutSection = () => {
         
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <h3 className="text-3xl font-bold mb-6">Why Choose Ironclad Gym?</h3>
+            <h3 className="text-3xl font-bold mb-6">Why Choose Kantipur Fitness Center?</h3>
             <p className="text-lg mb-6 text-gray-700">
-              At Ironclad Gym, we believe in the fundamentals of bodybuilding and strength training. 
+              At Kantipur Fitness Center, we believe in the fundamentals of bodybuilding and strength training. 
               We've created a space where serious lifters can focus on what matters - 
               results through proven methods.
             </p>

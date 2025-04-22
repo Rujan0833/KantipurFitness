@@ -9,14 +9,14 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-2 mb-6">
               <Dumbbell className="h-8 w-8 text-gym-red" />
-              <span className="text-2xl font-bold">IRONCLAD GYM</span>
+              <span className="text-2xl font-bold">KANTIPUR FITNESS CENTER</span>
             </div>
             <p className="text-gray-300 mb-6">
               A classic gym focused on traditional strength training and real results.
               No frills, no gimmicks, just iron and discipline.
             </p>
             <p className="text-sm text-gray-400">
-              © {new Date().getFullYear()} Ironclad Gym. All rights reserved.
+              © {new Date().getFullYear()} Kantipur Fitness Center. All rights reserved.
             </p>
           </div>
           
@@ -47,7 +47,7 @@ const Footer = () => {
             <ul className="space-y-4 text-gray-300">
               <li>123 Iron Street, Kathmandu, Nepal</li>
               <li>Phone: +977 1 234 5678</li>
-              <li>Email: info@ironcladgym.com</li>
+              <li>Email: info@kantipurfitness.com</li>
             </ul>
             
             <div className="flex space-x-4 mt-6">

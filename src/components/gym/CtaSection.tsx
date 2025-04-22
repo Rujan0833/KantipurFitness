@@ -16,7 +16,7 @@ const CtaSection = () => {
       <div className="container mx-auto px-6 relative z-10 text-center">
         <h2 className="text-4xl font-bold mb-6">READY TO START YOUR JOURNEY?</h2>
         <p className="text-xl max-w-3xl mx-auto mb-8">
-          Join Ironclad Gym today and experience the difference of a classic training environment
+          Join Kantipur Fitness Center today and experience the difference of a classic training environment
           focused on real results.
         </p>
         <Button className="bg-gym-red hover:bg-red-700 text-white px-10 py-6 text-lg">
