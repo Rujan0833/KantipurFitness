@@ -3,11 +3,14 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { createClient } from '@supabase/supabase-js';
 import { useToast } from "@/hooks/use-toast";
 
-// Initialize Supabase client
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+// Initialize Supabase client with fallback values if env vars are missing
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Create a mock client if credentials are missing
+const supabase = supabaseUrl && supabaseAnonKey 
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;
 
 type AuthContextType = {
   isLoggedIn: boolean;
@@ -25,6 +28,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Only run if supabase client is available
+    if (!supabase) {
+      console.warn('Supabase client not initialized. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.');
+      return;
+    }
+
     // Check for active session on load
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -55,6 +64,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
+    if (!supabase) {
+      toast({
+        title: "Authentication Error",
+        description: "Authentication service is not configured. Please contact the administrator.",
+        variant: "destructive",
+      });
+      return { error: new Error("Supabase client not initialized") };
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -78,6 +96,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const signup = async (email: string, password: string) => {
+    if (!supabase) {
+      toast({
+        title: "Authentication Error",
+        description: "Authentication service is not configured. Please contact the administrator.",
+        variant: "destructive",
+      });
+      return { error: new Error("Supabase client not initialized") };
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -101,6 +128,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = async () => {
+    if (!supabase) {
+      toast({
+        title: "Authentication Error",
+        description: "Authentication service is not configured. Please contact the administrator.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const { error } = await supabase.auth.signOut();
     
     if (error) {
