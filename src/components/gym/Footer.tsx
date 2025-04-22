@@ -34,11 +34,11 @@ const Footer = () => {
               <div className="ml-7 space-y-3 border-l border-gray-700 pl-4">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-300">Morning</span>
-                  <span className="text-gym-red font-medium">5:30 AM - 12:30 PM</span>
+                  <span className="text-gray-300">5:30 AM - 12:30 PM</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-300">Evening</span>
-                  <span className="text-gym-red font-medium">4:30 PM - 9:30 PM</span>
+                  <span className="text-gray-300">4:30 PM - 9:30 PM</span>
                 </div>
               </div>
               
@@ -48,7 +48,7 @@ const Footer = () => {
               </div>
               <div className="ml-7 pl-4 border-l border-gray-700">
                 <div className="flex justify-between items-center">
-                  <span className="text-gym-red font-medium">Closed</span>
+                  <span className="text-gray-300">Closed</span>
                 </div>
               </div>
             </div>
