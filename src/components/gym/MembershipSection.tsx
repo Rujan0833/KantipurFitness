@@ -18,7 +18,7 @@ const MembershipSection = () => {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Standard Membership */}
-          <Card className="border border-gray-200 hover:shadow-lg transition-shadow hover-grow">
+          <Card className="border border-gray-200 transition-all duration-300 hover:border-gym-red hover:shadow-lg hover:-translate-y-2">
             <CardHeader className="text-center border-b pb-6">
               <CardTitle className="text-2xl font-bold">Standard</CardTitle>
               <CardDescription>Monthly Membership</CardDescription>
@@ -55,7 +55,7 @@ const MembershipSection = () => {
           </Card>
           
           {/* 3 Months */}
-          <Card className="border border-gray-200 hover:shadow-lg transition-shadow hover-grow">
+          <Card className="border border-gray-200 transition-all duration-300 hover:border-gym-red hover:shadow-lg hover:-translate-y-2">
             <CardHeader className="text-center border-b pb-6">
               <CardTitle className="text-2xl font-bold">3 Months</CardTitle>
               <CardDescription>Value Pack</CardDescription>
@@ -92,7 +92,7 @@ const MembershipSection = () => {
           </Card>
           
           {/* 6 Months */}
-          <Card className="border-2 border-gym-red hover:shadow-lg transition-shadow relative hover-grow">
+          <Card className="border-2 border-gym-red hover:shadow-lg transition-all duration-300 hover:-translate-y-2 relative">
             <div className="absolute top-0 right-0 bg-gym-red text-white px-4 py-1 text-sm font-bold">
               POPULAR
             </div>
@@ -132,7 +132,7 @@ const MembershipSection = () => {
           </Card>
           
           {/* 12 Months */}
-          <Card className="border border-gray-200 hover:shadow-lg transition-shadow hover-grow">
+          <Card className="border border-gray-200 transition-all duration-300 hover:border-gym-red hover:shadow-lg hover:-translate-y-2">
             <CardHeader className="text-center border-b pb-6">
               <CardTitle className="text-2xl font-bold">12 Months</CardTitle>
               <CardDescription>Annual Pack</CardDescription>
