@@ -9,22 +9,22 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <Dumbbell className="h-8 w-8 text-gym-red" />
-          <span className="text-2xl font-bold">KANTIPUR FITNESS CENTER</span>
+          <Link to="/" className="text-2xl font-bold">KANTIPUR FITNESS CENTER</Link>
         </div>
         
         <div className="hidden md:flex space-x-8">
-          <a href="/" className="font-medium hover:text-gym-red transition-colors">
+          <Link to="/" className="font-medium hover:text-gym-red transition-colors">
             Home
-          </a>
-          <a href="#about" className="font-medium hover:text-gym-red transition-colors">
+          </Link>
+          <Link to="/about" className="font-medium hover:text-gym-red transition-colors">
             About
-          </a>
-          <a href="#memberships" className="font-medium hover:text-gym-red transition-colors">
+          </Link>
+          <Link to="/memberships" className="font-medium hover:text-gym-red transition-colors">
             Memberships
-          </a>
-          <a href="#features" className="font-medium hover:text-gym-red transition-colors">
+          </Link>
+          <Link to="/features" className="font-medium hover:text-gym-red transition-colors">
             Features
-          </a>
+          </Link>
         </div>
         
         <Button className="bg-gym-red hover:bg-red-700 transition-colors">
