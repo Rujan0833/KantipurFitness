@@ -12,12 +12,16 @@ const supabase = supabaseUrl && supabaseAnonKey
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
+// Flag to track if we've shown the configuration warning
+let hasShownConfigWarning = false;
+
 type AuthContextType = {
   isLoggedIn: boolean;
   user: any | null;
   login: (email: string, password: string) => Promise<{ error: any | null }>;
   signup: (email: string, password: string) => Promise<{ error: any | null }>;
   logout: () => Promise<void>;
+  isSupabaseConfigured: boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -26,13 +30,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<any | null>(null);
   const { toast } = useToast();
+  const isSupabaseConfigured = !!supabase;
 
   useEffect(() => {
-    // Only run if supabase client is available
-    if (!supabase) {
+    // Show configuration warning only once
+    if (!supabase && !hasShownConfigWarning) {
       console.warn('Supabase client not initialized. Please set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY environment variables.');
+      toast({
+        title: "Authentication Not Configured",
+        description: "The authentication service needs to be configured. Please connect to Supabase using the green button in the top right.",
+        variant: "destructive",
+        duration: 6000,
+      });
+      hasShownConfigWarning = true;
       return;
     }
+
+    // Only run if supabase client is available
+    if (!supabase) return;
 
     // Check for active session on load
     const checkSession = async () => {
@@ -61,14 +76,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       authListener.subscription.unsubscribe();
     };
-  }, []);
+  }, [toast]);
 
   const login = async (email: string, password: string) => {
     if (!supabase) {
       toast({
         title: "Authentication Error",
-        description: "Authentication service is not configured. Please contact the administrator.",
+        description: "Authentication service is not configured. Please connect to Supabase using the green button in the top right.",
         variant: "destructive",
+        duration: 6000,
       });
       return { error: new Error("Supabase client not initialized") };
     }
@@ -99,8 +115,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!supabase) {
       toast({
         title: "Authentication Error",
-        description: "Authentication service is not configured. Please contact the administrator.",
+        description: "Authentication service is not configured. Please connect to Supabase using the green button in the top right.",
         variant: "destructive",
+        duration: 6000,
       });
       return { error: new Error("Supabase client not initialized") };
     }
@@ -131,8 +148,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!supabase) {
       toast({
         title: "Authentication Error",
-        description: "Authentication service is not configured. Please contact the administrator.",
+        description: "Authentication service is not configured. Please connect to Supabase using the green button in the top right.",
         variant: "destructive",
+        duration: 6000,
       });
       return;
     }
@@ -155,7 +173,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, user, login, signup, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, user, login, signup, logout, isSupabaseConfigured }}>
       {children}
     </AuthContext.Provider>
   );

@@ -7,9 +7,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dumbbell } from "lucide-react";
+import { Dumbbell, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -22,7 +23,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, isSupabaseConfigured } = useAuth();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -33,6 +34,15 @@ const Login = () => {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
+    if (!isSupabaseConfigured) {
+      toast({
+        title: "Authentication Error",
+        description: "Please connect to Supabase before logging in.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     setIsLoading(true);
     
     try {
@@ -69,6 +79,16 @@ const Login = () => {
             </p>
           </div>
 
+          {!isSupabaseConfigured && (
+            <Alert variant="destructive" className="my-4">
+              <AlertTriangle className="h-4 w-4" />
+              <AlertTitle>Authentication not configured</AlertTitle>
+              <AlertDescription>
+                The authentication service needs to be configured. Please connect to Supabase using the green button in the top right of the editor.
+              </AlertDescription>
+            </Alert>
+          )}
+
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-8">
               <FormField
@@ -102,7 +122,7 @@ const Login = () => {
               <Button 
                 type="submit" 
                 className="w-full bg-gym-red hover:bg-red-700 text-white"
-                disabled={isLoading}
+                disabled={isLoading || !isSupabaseConfigured}
               >
                 {isLoading ? "Signing in..." : "Sign in"}
               </Button>
