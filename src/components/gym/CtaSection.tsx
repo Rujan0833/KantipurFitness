@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const CtaSection = () => {
   return (
@@ -19,9 +20,11 @@ const CtaSection = () => {
           Join Kantipur Fitness Center today and experience the difference of a classic training environment
           focused on real results.
         </p>
-        <Button className="bg-gym-red hover:bg-red-700 text-white px-10 py-6 text-lg">
-          Join Now
-        </Button>
+        <Link to="/login">
+          <Button className="bg-gym-red hover:bg-red-700 text-white px-10 py-6 text-lg">
+            Join Now
+          </Button>
+        </Link>
       </div>
     </section>
   );

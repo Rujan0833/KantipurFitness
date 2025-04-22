@@ -27,9 +27,11 @@ const Navbar = () => {
           </Link>
         </div>
         
-        <Button className="bg-gym-red hover:bg-red-700 transition-colors">
-          Join Now
-        </Button>
+        <Link to="/login">
+          <Button className="bg-gym-red hover:bg-red-700 transition-colors">
+            Join Now
+          </Button>
+        </Link>
       </div>
     </nav>
   );

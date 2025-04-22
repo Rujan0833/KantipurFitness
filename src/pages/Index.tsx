@@ -72,9 +72,11 @@ const Index = () => {
           </div>
           
           <div className="text-center mt-12">
-            <Button className="bg-gym-red hover:bg-red-700">
-              Join Now
-            </Button>
+            <Link to="/login">
+              <Button className="bg-gym-red hover:bg-red-700">
+                Join Now
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

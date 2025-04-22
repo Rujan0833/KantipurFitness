@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   return (
@@ -24,12 +25,16 @@ const HeroSection = () => {
             No gimmicks. Just iron, sweat, and results.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button className="bg-gym-red hover:bg-red-700 text-white px-8 py-6 text-lg">
-              Join Now
-            </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white hover:text-gym-dark px-8 py-6 text-lg">
-              Learn More
-            </Button>
+            <Link to="/login">
+              <Button className="bg-gym-red hover:bg-red-700 text-white px-8 py-6 text-lg">
+                Join Now
+              </Button>
+            </Link>
+            <Link to="/about">
+              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-gym-dark px-8 py-6 text-lg">
+                Learn More
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
