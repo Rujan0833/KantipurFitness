@@ -1,5 +1,5 @@
 
-import { Dumbbell } from "lucide-react";
+import { Dumbbell, Clock } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -24,20 +24,34 @@ const Footer = () => {
             <h3 className="text-lg font-bold mb-6 relative inline-block after:content-[''] after:absolute after:w-16 after:h-1 after:bg-gym-red after:left-0 after:-bottom-2">
               OPERATING HOURS
             </h3>
-            <ul className="space-y-4 text-gray-300">
-              <li className="flex justify-between">
-                <span>Sunday - Friday</span>
-                <span>Morning: 5:30 AM - 12:30 PM</span>
-              </li>
-              <li className="flex justify-between">
-                <span>Sunday - Friday</span>
-                <span>Evening: 4:30 PM - 9:30 PM</span>
-              </li>
-              <li className="flex justify-between">
-                <span>Saturday</span>
-                <span>Closed</span>
-              </li>
-            </ul>
+            
+            <div className="mt-8 bg-gray-800 rounded-lg p-4 shadow-lg border-l-4 border-gym-red">
+              <div className="flex items-center mb-4">
+                <Clock className="h-5 w-5 text-gym-red mr-2" />
+                <h4 className="font-semibold text-white">Sunday - Friday</h4>
+              </div>
+              
+              <div className="ml-7 space-y-2 border-l-2 border-gray-700 pl-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">Morning</span>
+                  <span className="bg-gray-700 text-white px-3 py-1 rounded-full text-sm">5:30 AM - 12:30 PM</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-300">Evening</span>
+                  <span className="bg-gray-700 text-white px-3 py-1 rounded-full text-sm">4:30 PM - 9:30 PM</span>
+                </div>
+              </div>
+              
+              <div className="mt-6 flex items-center">
+                <Clock className="h-5 w-5 text-gym-red mr-2" />
+                <h4 className="font-semibold text-white">Saturday</h4>
+              </div>
+              <div className="ml-7 pl-4 border-l-2 border-gray-700">
+                <div className="flex justify-between items-center">
+                  <span className="text-gym-red font-medium">Closed</span>
+                </div>
+              </div>
+            </div>
           </div>
           
           <div>
