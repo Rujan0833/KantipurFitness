@@ -34,21 +34,24 @@ const Login = () => {
 
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
-    // In a real application, you would handle authentication here
-    console.log("Login attempt with:", data);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      // Set user as logged in
-      login();
+    try {
+      const { error } = await login(data.email, data.password);
+      
+      if (!error) {
+        // Redirect to home page after successful login
+        navigate('/');
+      }
+    } catch (err) {
+      console.error("Login error:", err);
       toast({
-        title: "Login Successful",
-        description: "You have been successfully logged in.",
+        title: "Login Failed",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
       });
-      // Redirect to home page after successful login
-      navigate('/');
-    }, 1000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

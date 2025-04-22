@@ -9,6 +9,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dumbbell } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 const signupSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -25,6 +26,7 @@ const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
@@ -37,19 +39,24 @@ const Signup = () => {
 
   const onSubmit = async (data: SignupFormValues) => {
     setIsLoading(true);
-    // In a real application, you would handle account creation here
-    console.log("Signup attempt with:", data);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      const { error } = await signup(data.email, data.password);
+      
+      if (!error) {
+        // Redirect to login page after successful signup
+        navigate('/login');
+      }
+    } catch (err) {
+      console.error("Signup error:", err);
       toast({
-        title: "Account Created",
-        description: "Your account has been created successfully. Please log in.",
+        title: "Signup Failed",
+        description: "An unexpected error occurred. Please try again.",
+        variant: "destructive",
       });
-      // Redirect to login page after successful signup
-      navigate('/login');
-    }, 1000);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
