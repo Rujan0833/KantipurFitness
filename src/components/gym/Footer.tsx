@@ -25,20 +25,20 @@ const Footer = () => {
               OPERATING HOURS
             </h3>
             
-            <div className="mt-8 bg-gray-800 rounded-lg p-4 shadow-lg border-l-4 border-gym-red">
-              <div className="flex items-center mb-4">
+            <div className="mt-8">
+              <div className="flex items-center mb-3">
                 <Clock className="h-5 w-5 text-gym-red mr-2" />
                 <h4 className="font-semibold text-white">Sunday - Friday</h4>
               </div>
               
-              <div className="ml-7 space-y-2 border-l-2 border-gray-700 pl-4">
+              <div className="ml-7 space-y-3 border-l border-gray-700 pl-4">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-300">Morning</span>
-                  <span className="bg-gray-700 text-white px-3 py-1 rounded-full text-sm">5:30 AM - 12:30 PM</span>
+                  <span className="text-gym-red font-medium">5:30 AM - 12:30 PM</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-gray-300">Evening</span>
-                  <span className="bg-gray-700 text-white px-3 py-1 rounded-full text-sm">4:30 PM - 9:30 PM</span>
+                  <span className="text-gym-red font-medium">4:30 PM - 9:30 PM</span>
                 </div>
               </div>
               
@@ -46,7 +46,7 @@ const Footer = () => {
                 <Clock className="h-5 w-5 text-gym-red mr-2" />
                 <h4 className="font-semibold text-white">Saturday</h4>
               </div>
-              <div className="ml-7 pl-4 border-l-2 border-gray-700">
+              <div className="ml-7 pl-4 border-l border-gray-700">
                 <div className="flex justify-between items-center">
                   <span className="text-gym-red font-medium">Closed</span>
                 </div>
