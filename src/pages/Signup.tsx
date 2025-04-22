@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -24,6 +24,7 @@ type SignupFormValues = z.infer<typeof signupSchema>;
 const Signup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const form = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
@@ -44,8 +45,10 @@ const Signup = () => {
       setIsLoading(false);
       toast({
         title: "Account Created",
-        description: "This is a demo. In a real app, your account would be created now.",
+        description: "Your account has been created successfully. Please log in.",
       });
+      // Redirect to login page after successful signup
+      navigate('/login');
     }, 1000);
   };
 

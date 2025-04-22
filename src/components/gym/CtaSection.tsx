@@ -1,8 +1,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 const CtaSection = () => {
+  const { isLoggedIn } = useAuth();
+
   return (
     <section className="py-16 bg-gym-dark text-white relative">
       <div className="absolute inset-0 bg-black opacity-70"
@@ -20,11 +23,13 @@ const CtaSection = () => {
           Join Kantipur Fitness Center today and experience the difference of a classic training environment
           focused on real results.
         </p>
-        <Link to="/login">
-          <Button className="bg-gym-red hover:bg-red-700 text-white px-10 py-6 text-lg">
-            Join Now
-          </Button>
-        </Link>
+        {!isLoggedIn && (
+          <Link to="/login">
+            <Button className="bg-gym-red hover:bg-red-700 text-white px-10 py-6 text-lg">
+              Join Now
+            </Button>
+          </Link>
+        )}
       </div>
     </section>
   );
