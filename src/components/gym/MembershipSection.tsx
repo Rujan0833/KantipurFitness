@@ -1,9 +1,34 @@
-
-import { Check, BadgeDollarSign, BadgePercent, CalendarCheck } from "lucide-react";
+import { Check, BadgeDollarSign, BadgePercent } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/hooks/use-toast";
 
 const MembershipSection = () => {
+  const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+  const { toast } = useToast();
+
+  const handlePlanSelection = (plan: {
+    name: string;
+    duration: string;
+    price: number;
+    admissionFee?: number;
+  }) => {
+    if (!isLoggedIn) {
+      toast({
+        title: "Login Required",
+        description: "Please login to select a membership plan.",
+        variant: "destructive",
+      });
+      navigate('/login');
+      return;
+    }
+
+    navigate('/payment', { state: { plan } });
+  };
+
   return (
     <section id="memberships" className="py-20 bg-gym-light">
       <div className="container mx-auto px-6">
@@ -25,7 +50,7 @@ const MembershipSection = () => {
             </CardHeader>
             <CardContent className="pt-6">
               <div className="flex justify-center items-end mb-6">
-                <span className="text-4xl font-bold">NPR 1,500</span>
+                <span className="text-4xl font-bold">NPR 2,000</span>
                 <span className="text-gray-500 ml-2">/month</span>
               </div>
               <div className="space-y-3">
@@ -43,12 +68,20 @@ const MembershipSection = () => {
                 </div>
                 <div className="flex items-center">
                   <Check className="h-5 w-5 text-gym-red mr-2" />
-                  <span>NPR 1,000 admission fee</span>
+                  <span>NPR 1,000 admission fee (one-time)</span>
                 </div>
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full bg-gym-red hover:bg-red-700">
+              <Button 
+                className="w-full bg-gym-red hover:bg-red-700"
+                onClick={() => handlePlanSelection({
+                  name: "Standard",
+                  duration: "1 Month",
+                  price: 2000,
+                  admissionFee: 1000
+                })}
+              >
                 Select Plan
               </Button>
             </CardFooter>
@@ -85,7 +118,14 @@ const MembershipSection = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full bg-gym-red hover:bg-red-700">
+              <Button 
+                className="w-full bg-gym-red hover:bg-red-700"
+                onClick={() => handlePlanSelection({
+                  name: "3 Months Value Pack",
+                  duration: "3 Months",
+                  price: 4000
+                })}
+              >
                 Select Plan
               </Button>
             </CardFooter>
@@ -125,7 +165,14 @@ const MembershipSection = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full bg-gym-red hover:bg-red-700">
+              <Button 
+                className="w-full bg-gym-red hover:bg-red-700"
+                onClick={() => handlePlanSelection({
+                  name: "6 Months Premium Pack",
+                  duration: "6 Months",
+                  price: 7000
+                })}
+              >
                 Select Plan
               </Button>
             </CardFooter>
@@ -162,7 +209,14 @@ const MembershipSection = () => {
               </div>
             </CardContent>
             <CardFooter>
-              <Button className="w-full bg-gym-red hover:bg-red-700">
+              <Button 
+                className="w-full bg-gym-red hover:bg-red-700"
+                onClick={() => handlePlanSelection({
+                  name: "12 Months Annual Pack",
+                  duration: "12 Months",
+                  price: 13000
+                })}
+              >
                 Select Plan
               </Button>
             </CardFooter>

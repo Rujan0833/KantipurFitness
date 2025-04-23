@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -7,10 +6,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dumbbell, AlertTriangle } from "lucide-react";
+import { Dumbbell } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -23,7 +21,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { login, isSupabaseConfigured } = useAuth();
+  const { login } = useAuth();
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -34,22 +32,16 @@ const Login = () => {
   });
 
   const onSubmit = async (data: LoginFormValues) => {
-    if (!isSupabaseConfigured) {
-      toast({
-        title: "Authentication Error",
-        description: "Please connect to Supabase before logging in.",
-        variant: "destructive",
-      });
-      return;
-    }
-    
     setIsLoading(true);
     
     try {
       const { error } = await login(data.email, data.password);
-      
+
       if (!error) {
-        // Redirect to home page after successful login
+        toast({
+          title: "Success",
+          description: "Logged in successfully!",
+        });
         navigate('/');
       }
     } catch (err) {
@@ -65,32 +57,26 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md space-y-8">
-          <div className="text-center">
-            <Link to="/" className="inline-flex items-center gap-2">
-              <Dumbbell className="h-8 w-8 text-gym-red" />
-              <span className="text-2xl font-bold">KANTIPUR FITNESS CENTER</span>
-            </Link>
-            <h1 className="mt-6 text-3xl font-bold">Sign in to your account</h1>
-            <p className="mt-2 text-gray-600">
-              Enter your credentials to access your account
-            </p>
-          </div>
+    <div className="min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="flex justify-center">
+          <Dumbbell className="h-12 w-12 text-gym-red" />
+        </div>
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          Sign in to your account
+        </h2>
+        <p className="mt-2 text-center text-sm text-gray-600">
+          Or{' '}
+          <Link to="/register" className="font-medium text-gym-red hover:text-red-500">
+            create a new account
+          </Link>
+        </p>
+      </div>
 
-          {!isSupabaseConfigured && (
-            <Alert variant="destructive" className="my-4">
-              <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Authentication not configured</AlertTitle>
-              <AlertDescription>
-                The authentication service needs to be configured. Please connect to Supabase using the green button in the top right of the editor.
-              </AlertDescription>
-            </Alert>
-          )}
-
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               <FormField
                 control={form.control}
                 name="email"
@@ -98,7 +84,7 @@ const Login = () => {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="you@example.com" {...field} />
+                      <Input placeholder="Enter your email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -112,31 +98,22 @@ const Login = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
+                      <Input type="password" placeholder="Enter your password" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <Button 
-                type="submit" 
-                className="w-full bg-gym-red hover:bg-red-700 text-white"
-                disabled={isLoading || !isSupabaseConfigured}
+              <Button
+                type="submit"
+                className="w-full bg-gym-red hover:bg-red-700"
+                disabled={isLoading}
               >
                 {isLoading ? "Signing in..." : "Sign in"}
               </Button>
             </form>
           </Form>
-
-          <div className="mt-6 text-center">
-            <p className="text-gray-600">
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-gym-red hover:underline font-medium">
-                Sign up
-              </Link>
-            </p>
-          </div>
         </div>
       </div>
     </div>

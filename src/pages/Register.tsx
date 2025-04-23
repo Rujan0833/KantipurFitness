@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
@@ -7,12 +6,12 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dumbbell, AlertTriangle } from "lucide-react";
+import { Dumbbell } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-const signupSchema = z.object({
+const registerSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
   email: z.string().email({ message: "Please enter a valid email address" }),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }),
   confirmPassword: z.string().min(6, { message: "Password must be at least 6 characters" }),
@@ -21,46 +20,41 @@ const signupSchema = z.object({
   path: ["confirmPassword"],
 });
 
-type SignupFormValues = z.infer<typeof signupSchema>;
+type RegisterFormValues = z.infer<typeof registerSchema>;
 
-const Signup = () => {
+const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { signup, isSupabaseConfigured } = useAuth();
+  const { signup } = useAuth();
 
-  const form = useForm<SignupFormValues>({
-    resolver: zodResolver(signupSchema),
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
     },
   });
 
-  const onSubmit = async (data: SignupFormValues) => {
-    if (!isSupabaseConfigured) {
-      toast({
-        title: "Authentication Error",
-        description: "Please connect to Supabase before signing up.",
-        variant: "destructive",
-      });
-      return;
-    }
-    
+  const onSubmit = async (data: RegisterFormValues) => {
     setIsLoading(true);
     
     try {
-      const { error } = await signup(data.email, data.password);
-      
+      const { error } = await signup(data.name, data.email, data.password);
+
       if (!error) {
-        // Redirect to login page after successful signup
-        navigate('/login');
+        toast({
+          title: "Success",
+          description: "Account created successfully!",
+        });
+        navigate('/');
       }
     } catch (err) {
-      console.error("Signup error:", err);
+      console.error("Registration error:", err);
       toast({
-        title: "Signup Failed",
+        title: "Registration Failed",
         description: "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
@@ -84,18 +78,22 @@ const Signup = () => {
             </p>
           </div>
 
-          {!isSupabaseConfigured && (
-            <Alert variant="destructive" className="my-4">
-              <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Authentication not configured</AlertTitle>
-              <AlertDescription>
-                The authentication service needs to be configured. Please connect to Supabase using the green button in the top right of the editor.
-              </AlertDescription>
-            </Alert>
-          )}
-
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-8">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="John Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control}
                 name="email"
@@ -141,7 +139,7 @@ const Signup = () => {
               <Button 
                 type="submit" 
                 className="w-full bg-gym-red hover:bg-red-700 text-white"
-                disabled={isLoading || !isSupabaseConfigured}
+                disabled={isLoading}
               >
                 {isLoading ? "Creating account..." : "Create account"}
               </Button>
@@ -162,4 +160,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Register; 
