@@ -75,7 +75,7 @@ const paymentMethods: PaymentMethod[] = [
   {
     id: "cash",
     name: "Cash on Location",
-    icon: <img src="/payment/file.svg" alt="Cash on Delivery" className="h-8 w-auto" />,
+    icon: <Banknote className="h-6 w-6 text-green-600" />,
     description: "Pay at the gym during your first visit"
   }
 ];
@@ -256,50 +256,50 @@ const Payment = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gym-light py-8 sm:py-12">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <Card className="w-full max-w-2xl mx-auto">
-          <CardHeader className="space-y-2">
-            <CardTitle className="text-xl sm:text-2xl md:text-3xl font-bold text-center">Complete Your Payment</CardTitle>
-            <CardDescription className="text-center text-sm sm:text-base">
+    <div className="min-h-screen bg-gym-light py-12">
+      <div className="container mx-auto px-4">
+        <Card className="max-w-2xl mx-auto">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">Complete Your Payment</CardTitle>
+            <CardDescription className="text-center">
               Secure payment for your membership
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6 sm:space-y-8">
+          <CardContent className="space-y-6">
             {/* Plan Summary */}
-            <div className="bg-gray-50 p-4 sm:p-6 rounded-lg">
-              <h3 className="font-semibold text-lg mb-4">Plan Summary</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center text-sm sm:text-base">
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="font-semibold mb-2">Plan Summary</h3>
+              <div className="space-y-2">
+                <div className="flex justify-between">
                   <span>Plan:</span>
                   <span className="font-medium">{plan.name}</span>
                 </div>
-                <div className="flex justify-between items-center text-sm sm:text-base">
+                <div className="flex justify-between">
                   <span>Duration:</span>
                   <span className="font-medium">{plan.duration}</span>
                 </div>
-                <div className="flex justify-between items-center text-sm sm:text-base">
+                <div className="flex justify-between">
                   <span>Amount:</span>
-                  <span className="font-medium">NPR {plan.price.toLocaleString()}</span>
+                  <span className="font-medium">NPR {plan.price}</span>
                 </div>
                 {plan.admissionFee && (
-                  <div className="flex justify-between items-center text-sm sm:text-base">
+                  <div className="flex justify-between">
                     <span>Admission Fee:</span>
-                    <span className="font-medium">NPR {plan.admissionFee.toLocaleString()}</span>
+                    <span className="font-medium">NPR {plan.admissionFee}</span>
                   </div>
                 )}
-                <div className="border-t pt-3 mt-3">
-                  <div className="flex justify-between items-center font-bold text-base sm:text-lg">
+                <div className="border-t pt-2 mt-2">
+                  <div className="flex justify-between font-bold">
                     <span>Total:</span>
-                    <span>NPR {(plan.admissionFee ? plan.price + plan.admissionFee : plan.price).toLocaleString()}</span>
+                    <span>NPR {plan.admissionFee ? plan.price + plan.admissionFee : plan.price}</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Payment Method Selection */}
-            <div className="space-y-4">
-              <h3 className="font-semibold text-lg mb-4">Select Payment Method</h3>
+            <div>
+              <h3 className="font-semibold mb-4">Select Payment Method</h3>
               <RadioGroup
                 value={selectedMethod}
                 onValueChange={setSelectedMethod}
@@ -308,21 +308,21 @@ const Payment = () => {
                 {paymentMethods.map((method) => (
                   <div 
                     key={method.id} 
-                    className={`relative flex items-center rounded-lg border p-3 sm:p-4 transition-all
+                    className={`relative flex items-center rounded-lg border p-4 transition-all
                       ${selectedMethod === method.id ? 'border-gym-red bg-red-50' : 'border-gray-200'}
                       hover:border-gym-red hover:bg-red-50`}
                   >
-                    <RadioGroupItem value={method.id} id={method.id} className="absolute right-3 sm:right-4" />
+                    <RadioGroupItem value={method.id} id={method.id} className="absolute right-4" />
                     <Label 
                       htmlFor={method.id} 
-                      className="flex items-center space-x-3 sm:space-x-4 cursor-pointer w-full"
+                      className="flex items-center space-x-4 cursor-pointer w-full"
                     >
-                      <div className="p-2 bg-white rounded-md shadow-sm flex items-center justify-center min-w-[48px] sm:min-w-[56px]">
+                      <div className="p-2 bg-white rounded-md shadow-sm">
                         {method.icon}
                       </div>
-                      <div className="flex-1">
-                        <div className="font-medium text-sm sm:text-base">{method.name}</div>
-                        <div className="text-xs sm:text-sm text-gray-500">{method.description}</div>
+                      <div>
+                        <div className="font-medium">{method.name}</div>
+                        <div className="text-sm text-gray-500">{method.description}</div>
                       </div>
                     </Label>
                   </div>
@@ -331,7 +331,7 @@ const Payment = () => {
             </div>
 
             {/* Terms and Conditions */}
-            <div className="text-xs sm:text-sm text-gray-600">
+            <div className="text-sm text-gray-600">
               By proceeding with the payment, you agree to our{" "}
               <a href="/terms" className="text-gym-red hover:underline">
                 Terms and Conditions
@@ -339,19 +339,19 @@ const Payment = () => {
               .
             </div>
           </CardContent>
-          <CardFooter className="px-4 sm:px-6">
+          <CardFooter>
             <Button 
-              className="w-full bg-gym-red hover:bg-red-700 py-6 text-base sm:text-lg"
+              className="w-full bg-gym-red hover:bg-red-700"
               onClick={handlePayment}
               disabled={isProcessing}
             >
               {isProcessing ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 sm:h-5 sm:w-5 animate-spin" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Processing...
                 </>
               ) : (
-                `Pay NPR ${(plan.admissionFee ? plan.price + plan.admissionFee : plan.price).toLocaleString()}`
+                `Pay NPR ${plan.admissionFee ? plan.price + plan.admissionFee : plan.price}`
               )}
             </Button>
           </CardFooter>
